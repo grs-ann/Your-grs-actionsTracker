@@ -30,7 +30,8 @@ namespace your_grs_actionsTracker.InstaSharperActions
             foreach (var value in media.Value)
             {
                 var images = value.Images;
-                if (value.MediaType != InstaMediaType.Video && images.Count > 0)
+                var videos = value.Videos;
+                if (images.Count > 0 && value.MediaType != InstaMediaType.Video)
                 {
                     var max = images.Max(i => i.Height);
                     // Filtering by maximum value of image height
@@ -38,10 +39,26 @@ namespace your_grs_actionsTracker.InstaSharperActions
                     // contains view and pre-view image.
                     URIContainer["photoURI"].Add((from x in images where (x.Height == max) select x).FirstOrDefault().URI);
                 }
-                var videos = value.Videos;
-                if (value.MediaType != InstaMediaType.Image && videos.Count > 0)
+                if (videos.Count > 0)
                 {
                     URIContainer["videoURI"].Add(value.Videos.FirstOrDefault().Url);
+                }
+                if (videos.Count == 0 && images.Count == 0 && value.Carousel.Count > 0)
+                {
+                    var carousel = value.Carousel;
+                    foreach (var carouselItem in carousel)
+                    {
+                        if (carouselItem.MediaType == InstaMediaType.Image)
+                        {
+                            var carouselImages = carouselItem.Images;
+                            var max = carouselImages.Max(x => x.Height);
+                            URIContainer["photoURI"].Add((from x in carouselImages where (x.Height == max) select x).FirstOrDefault().URI);
+                        }
+                        else if (carouselItem.MediaType == InstaMediaType.Video)
+                        {
+                            URIContainer["videoURI"].Add(carouselItem.Videos.FirstOrDefault().Url);
+                        }
+                    }
                 }
             }
             return URIContainer;
