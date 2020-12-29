@@ -30,12 +30,11 @@ namespace your_grs_actionsTracker.InstaSharperActions
                 var images = value.Images;
                 if (images.Count > 0)
                 {
-                    // важно отфильровать фотографии, т.к. имеются дубликаты!(превью)
-                    List<InstaImage> temp = new List<InstaImage>();
-                    foreach (var item in images)
-                    {
-                        temp.Add(item);
-                    }
+                    var max = images.Max(i => i.Height);
+                    // Filtering by maximum value of image height
+                    // The reason for this is that media.Value returns list that
+                    // contains view and pre-view image.
+                    URIses.Add((from x in images where (x.Height == max) select x).FirstOrDefault().URI);
                 }
                 if (value.Videos.Count > 0)
                 {
