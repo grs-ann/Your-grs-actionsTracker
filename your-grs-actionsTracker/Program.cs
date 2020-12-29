@@ -8,6 +8,8 @@ using InstaSharper.API.Builder;
 using InstaSharper.Classes;
 using InstaSharper.Classes.Models;
 using InstaSharper.Logger;
+using your_grs_actionsTracker.DataDownload;
+using your_grs_actionsTracker.InstaSharperActions;
 
 namespace your_grs_actionsTracker
 {
@@ -18,32 +20,38 @@ namespace your_grs_actionsTracker
         /// </summary>
         private static IInstaApi _instaApi;
         private static List<string> urises = new List<string>();
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var result = Task.Run(MainAsync).GetAwaiter().GetResult();
             if (result)
                 return;
-            Console.WriteLine("Чтобы сохранить картинки, нажмите y");
-            var pressed = Console.ReadKey().KeyChar;
-            if (pressed == 'y' || pressed == 'Y')
+            Console.WriteLine("Вход в аккаунт выполнен успешно.");
+            Console.WriteLine("Выберите дальнейшее действие: " +
+                "\n1 - Получить медиа-ресурсы с профиля");
+            var pressed = Console.ReadLine();
+            switch (pressed)
             {
-                var counter = 1;
-                foreach (var uri in urises)
-                {
-                    using (WebClient wc = new WebClient())
-                    {
-                        wc.DownloadFileAsync(
-                            new Uri(uri),
-                            $@"D:\\InstagramParse\\{counter}.jpg");
-                    }
-                    counter += 1;
-                }
+                case "1":
+                    var parsing = new Parsing(_instaApi);
+                    Console.WriteLine("Введите id пользователя: ");
+                    var objectId = Console.ReadLine();
+                    urises = await parsing.GetMedia(objectId);
+                    Console.WriteLine("Данные о медиа-ресурсах получены. Скачать ресурсы?(Y - да, N - нет)");
+                    break;
+                default:
+                    break;
             }
-            else
+            pressed = Console.ReadLine();
+            switch (pressed)
             {
-                Console.WriteLine("GG");
+                case "Y":
+                    Downloader.DownloadMediaToFolder(urises);
+                    Console.WriteLine("Данные успешно загружены.");
+                    break;
+                default:
+                    break;
             }
-            Console.ReadKey();
+            Console.ReadLine();
         }
         public static async Task<bool> MainAsync()
         {
@@ -78,18 +86,6 @@ namespace your_grs_actionsTracker
                         return false;
                     }
                 }
-                IResult<InstaMediaList> media = await _instaApi.GetUserMediaAsync("crucian.sl", PaginationParameters.Empty);
-                Environment.ExpandEnvironmentVariables(@"D:\InstagramParse");
-                foreach (var item in media.Value)
-                {
-                    Console.WriteLine(item.Images.Count);
-                    foreach (var image in item.Images)
-                    {
-                        var uri = image.URI;
-                        urises.Add(uri);
-                    }
-                }
- 
             }
             catch (Exception ex)
             {
