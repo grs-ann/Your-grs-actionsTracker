@@ -20,27 +20,31 @@ namespace your_grs_actionsTracker.InstaSharperActions
             this.API = _instaApi;
         }
         // 
-        public async Task<List<string>> GetMedia(string parseObject)
+        public async Task<Dictionary<string, List<string>>> GetMedia(string parseObject, Dictionary<string, List<string>> URIContainer)
         {
-            List<string> URIses = new List<string>();
+            
+            List<string> PhotoURI = new List<string>();
+            List<string> VideoURI = new List<string>();
             IResult<InstaMediaList> media = await API.GetUserMediaAsync(parseObject, PaginationParameters.Empty);
             Environment.ExpandEnvironmentVariables(@"D:\InstagramParse");
             foreach (var value in media.Value)
             {
                 var images = value.Images;
-                if (images.Count > 0)
+                if (value.MediaType != InstaMediaType.Video && images.Count > 0)
                 {
                     var max = images.Max(i => i.Height);
                     // Filtering by maximum value of image height
                     // The reason for this is that media.Value returns list that
                     // contains view and pre-view image.
-                    URIses.Add((from x in images where (x.Height == max) select x).FirstOrDefault().URI);
+                    URIContainer["photoURI"].Add((from x in images where (x.Height == max) select x).FirstOrDefault().URI);
                 }
-                if (value.Videos.Count > 0)
+                var videos = value.Videos;
+                if (value.MediaType != InstaMediaType.Image && videos.Count > 0)
                 {
+                    URIContainer["videoURI"].Add(value.Videos.FirstOrDefault().Url);
                 }
             }
-            return URIses;
+            return URIContainer;
         }
     }
 }

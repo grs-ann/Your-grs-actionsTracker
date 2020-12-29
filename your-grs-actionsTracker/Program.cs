@@ -19,7 +19,11 @@ namespace your_grs_actionsTracker
         ///     Api instance (one instance per Instagram user)
         /// </summary>
         private static IInstaApi _instaApi;
-        private static List<string> urises = new List<string>();
+        private static Dictionary<string, List<string>> URI = new Dictionary<string, List<string>>()
+        {
+            ["photoURI"] = new List<string>(),
+            ["videoURI"] = new List<string>()
+        };
         static async Task Main(string[] args)
         {
             var result = Task.Run(MainAsync).GetAwaiter().GetResult();
@@ -35,7 +39,8 @@ namespace your_grs_actionsTracker
                     var parsing = new Parsing(_instaApi);
                     Console.WriteLine("Введите id пользователя: ");
                     var objectId = Console.ReadLine();
-                    urises = await parsing.GetMedia(objectId);
+                    // GETTING MEDIA INFORMATION(URISES).
+                    URI = await parsing.GetMedia(objectId, URI);
                     Console.WriteLine("Данные о медиа-ресурсах получены. Скачать ресурсы?(Y - да, N - нет)");
                     break;
                 default:
@@ -45,7 +50,8 @@ namespace your_grs_actionsTracker
             switch (pressed)
             {
                 case "Y":
-                    Downloader.DownloadMediaToFolder(urises);
+                    Downloader.DownloadPhotoToFolder(URI);
+                    Downloader.DownloadVideoToFolder(URI);
                     Console.WriteLine("Данные успешно загружены.");
                     break;
                 default:
