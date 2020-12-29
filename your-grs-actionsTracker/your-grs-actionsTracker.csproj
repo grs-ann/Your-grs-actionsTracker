@@ -6,4 +6,8 @@
     <RootNamespace>your_grs_actionsTracker</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="InstaSharper" Version="1.4.82" />
+  </ItemGroup>
+
 </Project>
