@@ -66,8 +66,8 @@ namespace your_grs_actionsTracker
                 // create user session data and provide login details.
                 var userSession = new UserSessionData
                 {
-                    UserName = "books_online366",
-                    Password = "a89879000520"
+                    UserName = "228",
+                    Password = "322"
                 };
                 var delay = RequestDelay.FromSeconds(2, 2);
                 // create new InstaApi instance using Builder
