@@ -33,11 +33,13 @@ namespace InstaParseWPF
                 var result = Task.Run(Login.MainAsync).GetAwaiter().GetResult();
                 if (result)
                 {
-                    MessageBox.Show("Вход выполнен успешно.");
+                    this.Hide();
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
                 }
                 else
                 {
-                    MessageBox.Show("Что то пошло не так.");
+                    MessageBox.Show("Некорректные данные входа");
                 }
             }
             catch (Exception ex)
