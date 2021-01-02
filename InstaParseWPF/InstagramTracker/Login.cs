@@ -1,62 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security;
 using System.Threading.Tasks;
 using InstaSharper.API;
 using InstaSharper.API.Builder;
 using InstaSharper.Classes;
 using InstaSharper.Logger;
-using your_grs_actionsTracker.DataDownload;
-using your_grs_actionsTracker.InstaSharperActions;
 
-namespace your_grs_actionsTracker
+namespace InstaParseWPF.InstagramTracker
 {
-    class Program
+    class Login
     {
         /// <summary>
         ///     Api instance (one instance per Instagram user)
         /// </summary>
-        private static IInstaApi _instaApi;
+        public static IInstaApi _instaApi;
+        public static string userLogin { get; set; }
+        public static string userPassword { get; set; }
         private static Dictionary<string, List<string>> URI = new Dictionary<string, List<string>>()
         {
             ["photoURI"] = new List<string>(),
             ["videoURI"] = new List<string>()
         };
-        static async Task Main(string[] args)
-        {
-            var result = Task.Run(MainAsync).GetAwaiter().GetResult();
-            if (result)
-                return;
-            Console.WriteLine("Вход в аккаунт выполнен успешно.");
-            Console.WriteLine("Выберите дальнейшее действие: " +
-                "\n1 - Получить медиа-ресурсы с профиля");
-            var pressed = Console.ReadLine();
-            switch (pressed)
-            {
-                case "1":
-                    var parsing = new Parsing(_instaApi);
-                    Console.WriteLine("Введите id пользователя: ");
-                    var objectId = Console.ReadLine();
-                    // GETTING MEDIA INFORMATION(URISES).
-                    URI = await parsing.GetMedia(objectId, URI);
-                    Console.WriteLine("Данные о медиа-ресурсах получены. Скачать ресурсы?(Y - да, N - нет)");
-                    break;
-                default:
-                    break;
-            }
-            pressed = Console.ReadLine();
-            switch (pressed)
-            {
-                case "Y":
-                    Downloader.DownloadPhotoToFolder(URI);
-                    Downloader.DownloadVideoToFolder(URI);
-                    Console.WriteLine("Данные успешно загружены.");
-                    break;
-                default:
-                    break;
-            }
-            Console.ReadLine();
-        }
         public static async Task<bool> MainAsync()
         {
             try
@@ -66,8 +32,8 @@ namespace your_grs_actionsTracker
                 // create user session data and provide login details.
                 var userSession = new UserSessionData
                 {
-                    UserName = "228",
-                    Password = "322"
+                    UserName = userLogin,
+                    Password = userPassword
                 };
                 var delay = RequestDelay.FromSeconds(2, 2);
                 // create new InstaApi instance using Builder
@@ -89,6 +55,10 @@ namespace your_grs_actionsTracker
                         Console.WriteLine($"Unable to login: {logInResult.Info.Message}");
                         return false;
                     }
+                    else
+                    {
+                        return true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -103,6 +73,5 @@ namespace your_grs_actionsTracker
             }
             return false;
         }
- 
     }
 }
