@@ -4,11 +4,20 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="pages\folder.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="InstaSharper" Version="1.4.82" />
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="pages\Icons\folder.png" />
   </ItemGroup>
 
 </Project>

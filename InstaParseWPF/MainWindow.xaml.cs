@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InstaParseWPF.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace InstaParseWPF
         public MainWindow()
         {
             InitializeComponent();
+            MainFrame.Content = new Page1();
         }
 
         private void ButtonExit_Click(object sender, RoutedEventArgs e)
@@ -33,6 +35,16 @@ namespace InstaParseWPF
         private void GridHeader_MouseDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void boardButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Page1());
+        }
+
+        private void mediaButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new Page2());
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:InstaParseWPF"
         mc:Ignorable="d"
-        Title="Login" Height="319" Width="300" FontSize="14" Background="BlueViolet">
+        Title="Login" Height="329" Width="300" FontSize="14" Background="BlueViolet" ResizeMode="NoResize">
     <Border Background="#2e3137" CornerRadius="20" Margin="20">
         <StackPanel Margin="20">
             <Label Content="Login" Foreground="White" FontSize="25" HorizontalAlignment="Center"/>
@@ -13,8 +13,8 @@
             <Label Content="Username" Foreground="White"/>
             <TextBox Name="txtUsername" Background="#545d6a" Foreground="White" FontSize="18"/>
             <Label Content="Password" Foreground="White"/>
-            <TextBox Name="txtPassword" Background="#545d6a" Foreground="White" FontSize="18"/>
-            <Button Name="buttonSubmit" Content="Submit" Margin="60 10" Background="#545d6a" Foreground="White" FontSize="18" Click="buttonSubmit_Click"/>
+            <PasswordBox Name="txtPassword" Background="#545d6a" Foreground="White" FontSize="18"/>
+            <Button Name="buttonSubmit" Content="Login" Margin="60 10" Background="#545d6a" Foreground="White" FontSize="18" Click="buttonSubmit_Click" Height="34"/>
         </StackPanel>
     </Border>
 </Window>

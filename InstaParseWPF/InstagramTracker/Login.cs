@@ -15,7 +15,7 @@ namespace InstaParseWPF.InstagramTracker
         /// <summary>
         ///     Api instance (one instance per Instagram user)
         /// </summary>
-        private static IInstaApi _instaApi;
+        public static IInstaApi _instaApi;
         public static string userLogin { get; set; }
         public static string userPassword { get; set; }
         private static Dictionary<string, List<string>> URI = new Dictionary<string, List<string>>()

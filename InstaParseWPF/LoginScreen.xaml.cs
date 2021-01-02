@@ -27,7 +27,7 @@ namespace InstaParseWPF
         {
             Login.userLogin = txtUsername.Text;
             // This is bad practice!!!!!!! But now it is not critically.
-            Login.userPassword = txtPassword.Text;
+            Login.userPassword = txtPassword.Password;
             try
             {
                 var result = Task.Run(Login.MainAsync).GetAwaiter().GetResult();
