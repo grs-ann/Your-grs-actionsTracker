@@ -24,7 +24,7 @@
         <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonFolder" Click="ButtonFolder_Click" Width="70" Height="25" Margin="405,100,75,100" BorderBrush="Purple" Background="DarkViolet">
             <Image Source="Icons/folder.png"/>
         </Button>
-        <Button Content="Start" Grid.Row="1" Grid.Column="1" Width="120" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" BorderBrush="Purple" Foreground="Black" FontSize="18" Background="DarkViolet" Click="Button_Click">
+        <Button Content="Start" Grid.Row="1" Grid.Column="1" Width="120" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10" BorderBrush="Purple" Foreground="White" FontSize="18" Background="DarkViolet" Click="Button_Click">
             
         </Button>
     </Grid>

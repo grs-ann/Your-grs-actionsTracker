@@ -26,7 +26,6 @@ namespace InstaParseWPF.InstagramTracker
             List<string> PhotoURI = new List<string>();
             List<string> VideoURI = new List<string>();
             IResult<InstaMediaList> media = await API.GetUserMediaAsync(parseObject, PaginationParameters.Empty);
-            Environment.ExpandEnvironmentVariables(@"D:\InstagramParse");
             foreach (var value in media.Value)
             {
                 var images = value.Images;

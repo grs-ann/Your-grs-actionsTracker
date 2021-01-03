@@ -39,8 +39,8 @@ namespace InstaParseWPF.Pages
                 var URIcollection = await p.GetMedia(userAddress.Text, URI);
                 if (URIcollection != null)
                 {
-                    Downloader.DownloadPhotoToFolder(folderTextBox.Text, URIcollection);
-                    Downloader.DownloadVideoToFolder(folderTextBox.Text, URIcollection);
+                    await Downloader.DownloadPhotoToFolder(folderTextBox.Text, userAddress.Text, URIcollection);
+                    await Downloader.DownloadVideoToFolder(folderTextBox.Text, userAddress.Text, URIcollection);
                 }
             }
             else

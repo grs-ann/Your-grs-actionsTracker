@@ -9,41 +9,45 @@ namespace InstaParseWPF.InstagramTracker
 {
     static class Downloader
     {
-        public static void DownloadPhotoToFolder(string pathToSave, Dictionary<string, List<string>> URI)
+        public async static Task DownloadPhotoToFolder(string pathToSave, string userName, Dictionary<string, List<string>> URI)
         {
-            using (WebClient wc = new WebClient())
+            pathToSave += @"\" + userName + @"\Photo";
+            var dirInfo = new DirectoryInfo(pathToSave);
+            if (!dirInfo.Exists)
             {
-                var temporaryCounter = 1;
-                for (int i = 0; i < URI["photoURI"].Count; i++)
+                dirInfo.Create();
+            }
+            var temporaryCounter = 1;
+            var tasks = new List<Task>();
+            for (int i = 0; i < URI["photoURI"].Count; i++)
+            {
+                using (WebClient wc = new WebClient())
                 {
-                    wc.DownloadFileAsync(
-                    new Uri(URI["photoURI"][i]),
-                    $@"{pathToSave}\\{temporaryCounter}.jpg");
+                    tasks.Add(wc.DownloadFileTaskAsync(new Uri(URI["photoURI"][i]), $@"{pathToSave}\\{temporaryCounter}.jpg"));
                     temporaryCounter += 1;
-                    while (wc.IsBusy)
-                    {
-                        System.Threading.Thread.Sleep(100);
-                    }
                 }
             }
+            await Task.WhenAll(tasks);
         }
-        public static void DownloadVideoToFolder(string pathToSave, Dictionary<string, List<string>> URI)
+        public async static Task DownloadVideoToFolder(string pathToSave, string userName, Dictionary<string, List<string>> URI)
         {
-            using (WebClient wc = new WebClient())
+            pathToSave += @"\" + userName + @"\Video";
+            var dirInfo = new DirectoryInfo(pathToSave);
+            if (!dirInfo.Exists)
             {
-                var temporaryCounter = 1;
-                for (int i = 0; i < URI["videoURI"].Count; i++)
+                dirInfo.Create();
+            }
+            var temporaryCounter = 1;
+            var tasks = new List<Task>();
+            for (int i = 0; i < URI["videoURI"].Count; i++)
+            {
+                using (WebClient wc = new WebClient())
                 {
-                    wc.DownloadFileAsync(
-                        new Uri(URI["videoURI"][i]),
-                        $@"{pathToSave}\\{temporaryCounter}video.mp4");
+                    tasks.Add(wc.DownloadFileTaskAsync(new Uri(URI["videoURI"][i]), $@"{pathToSave}\\{temporaryCounter}video.mp4"));
                     temporaryCounter += 1;
-                    while (wc.IsBusy)
-                    {
-                        System.Threading.Thread.Sleep(100);
-                    }
                 }
             }
+            await Task.WhenAll(tasks);
         }
     }
 }
