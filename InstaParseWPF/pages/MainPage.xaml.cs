@@ -16,9 +16,9 @@ namespace InstaParseWPF.Pages
     /// <summary>
     /// Interaction logic for Page1.xaml
     /// </summary>
-    public partial class Page1 : Page
+    public partial class MainPage : Page
     {
-        public Page1()
+        public MainPage()
         {
             InitializeComponent();
         }

@@ -9,19 +9,21 @@ namespace InstaParseWPF.Pages
     /// <summary>
     /// Interaction logic for Page2.xaml
     /// </summary>
-    public partial class Page2 : Page
+    public partial class Media : Page
     {
-        public Page2()
+        public Media()
         {
             InitializeComponent();
         }
 
         private void ButtonFolder_Click(object sender, RoutedEventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
-                folderTextBox.Text = fbd.SelectedPath.ToString();
+                if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    folderTextBox.Text = fbd.SelectedPath.ToString();
+                }
             }
         }
         // start parsing click

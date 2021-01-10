@@ -1,12 +1,12 @@
-﻿using System;
+﻿using InstagramApiSharp.API;
+using InstagramApiSharp.API.Builder;
+using InstagramApiSharp.Classes;
+using InstagramApiSharp.Logger;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Security;
 using System.Threading.Tasks;
-using InstaSharper.API;
-using InstaSharper.API.Builder;
-using InstaSharper.Classes;
-using InstaSharper.Logger;
 
 namespace InstaParseWPF.InstagramTracker
 {
@@ -18,17 +18,10 @@ namespace InstaParseWPF.InstagramTracker
         public static IInstaApi _instaApi;
         public static string userLogin { get; set; }
         public static string userPassword { get; set; }
-        private static Dictionary<string, List<string>> URI = new Dictionary<string, List<string>>()
-        {
-            ["photoURI"] = new List<string>(),
-            ["videoURI"] = new List<string>()
-        };
         public static async Task<bool> MainAsync()
         {
             try
             {
-                WebClient client = new WebClient();
-                Console.WriteLine("Starting instaSharper");
                 // create user session data and provide login details.
                 var userSession = new UserSessionData
                 {
